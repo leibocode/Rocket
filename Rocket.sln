@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocket.API", "Rocket.API\Rocket.API.csproj", "{BF301F4D-1ED5-4651-8AF6-35DAB9AC5C66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.API", "Rocket.API\Rocket.API.csproj", "{BF301F4D-1ED5-4651-8AF6-35DAB9AC5C66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocket.Core", "Rocket.Core\Rocket.Core.csproj", "{4B5A4F7B-0C1C-4D1A-980E-486758FC423B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.Core", "Rocket.Core\Rocket.Core.csproj", "{4B5A4F7B-0C1C-4D1A-980E-486758FC423B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocket.AspNetCore", "Rocket.AspNetCore\Rocket.AspNetCore.csproj", "{126F7C40-1043-42F9-A372-E88E3C44D0C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.AspNetCore", "Rocket.AspNetCore\Rocket.AspNetCore.csproj", "{126F7C40-1043-42F9-A372-E88E3C44D0C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.AutoMapper", "Rocket.AutoMapper\Rocket.AutoMapper.csproj", "{EEA90578-C4EF-45FA-8F6A-1CF202310D26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.SqlsugarCore", "Rocket.SqlsugarCore\Rocket.SqlsugarCore.csproj", "{59821F08-59BF-45FE-90AA-9CF254851782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocket.AliyunOSS", "Rocket.AliyunOSS\Rocket.AliyunOSS.csproj", "{F6A3631B-1BD7-4E45-A341-C661959B81F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{126F7C40-1043-42F9-A372-E88E3C44D0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{126F7C40-1043-42F9-A372-E88E3C44D0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{126F7C40-1043-42F9-A372-E88E3C44D0C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA90578-C4EF-45FA-8F6A-1CF202310D26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA90578-C4EF-45FA-8F6A-1CF202310D26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA90578-C4EF-45FA-8F6A-1CF202310D26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA90578-C4EF-45FA-8F6A-1CF202310D26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59821F08-59BF-45FE-90AA-9CF254851782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59821F08-59BF-45FE-90AA-9CF254851782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59821F08-59BF-45FE-90AA-9CF254851782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59821F08-59BF-45FE-90AA-9CF254851782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A3631B-1BD7-4E45-A341-C661959B81F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A3631B-1BD7-4E45-A341-C661959B81F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A3631B-1BD7-4E45-A341-C661959B81F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A3631B-1BD7-4E45-A341-C661959B81F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
