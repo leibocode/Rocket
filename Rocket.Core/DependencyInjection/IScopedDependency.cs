@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rocket.Core.DependencyInjection
 {
-    public interface IScopedDependency
+    public interface IScopedDependency: IDependency
     {
     }
 }

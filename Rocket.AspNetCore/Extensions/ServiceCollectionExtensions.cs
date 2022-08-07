@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,53 +12,51 @@ namespace Rocket.AspNetCore.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterType(this IServiceCollection services,List<Type> typeList, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection RegisterType(this IServiceCollection services, string load)
         {
-            if (typeList.Count()==0)
-            {
-                return services;
-            }
+            var baseType = typeof(IDependency);
+            var path = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
+            var getFiles = Directory.GetFiles(load ?? path, "*.dll").Where(x => x.Contains("Dependency"));  //.Where(o=>o.Match())
+            var referencedAssemblies = getFiles.Select(Assembly.LoadFrom).ToList();  //.Select(o=> Assembly.LoadFrom(o))         
 
-            Dictionary<Type, Type[]> dictionAry = new Dictionary<Type, Type[]>();
-            foreach (var type in typeList)
-            {
-                Type[] interfaces = type.GetInterfaces();
-                dictionAry.Add(type,interfaces);
-            }
+            var ss = referencedAssemblies.SelectMany(o => o.GetTypes());
 
-            if (dictionAry.Keys.Count()>0)
+            var types = referencedAssemblies
+                .SelectMany(a => a.DefinedTypes)
+                .Select(type => type.AsType())
+                .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
+            var implementTypes = types.Where(x => x.IsClass).ToList();
+            var interfaceTypes = types.Where(x => x.IsInterface).ToList();
+            foreach (var implementType in implementTypes)
             {
-                foreach (var key in dictionAry.Keys)
+                if (typeof(IScopedDependency).IsAssignableFrom(implementType))
                 {
-                    foreach (var serviceType in dictionAry[key])
-                    {
-                        switch (serviceLifetime)
-                        {
-                            case ServiceLifetime.Singleton:
-                                services.AddSingleton(serviceType,key);
-                                break;
-                            case ServiceLifetime.Scoped:
-                                services.AddScoped(serviceType,key);
-                                break;
-                            case ServiceLifetime.Transient:
-                                services.AddTransient(serviceType, key);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddScoped(interfaceType, implementType);
+                }
+                else if (typeof(ISingletonDependency).IsAssignableFrom(implementType))
+                {
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddSingleton(interfaceType, implementType);
+                }
+                else
+                {
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddTransient(interfaceType, implementType);
                 }
             }
-
             return services;
         }
 
-        public static IServiceCollection RegistryAllType(IRocketBuilder rocketBuilder,string load = "")
+        public static IServiceCollection RegistryAllType(IRocketBuilder rocketBuilder, string load)
         {
-            //rocketBuilder.Services.RegisterType();
+            return rocketBuilder.Services.RegisterType(load);
         }
 
-        private static bool Match(string load ="",string matchAssemblies)
+        private static bool Match(string load = "", string matchAssemblies = "")
         {
             var assemblyName = Path.GetFileName(load);
             if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.Views"))
@@ -65,6 +64,6 @@ namespace Rocket.AspNetCore.Extensions
             if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.PrecompiledViews"))
                 return false;
             return Regex.IsMatch(assemblyName, matchAssemblies, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        } 
+        }
     }
 }
